@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tandil Burger</title>
+    <link rel="stylesheet" href="pagina.css">
+
+    <!-- Importar Firebase 8 (no modular) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+    <!-- Header con logo y título -->
+    <header>
+        <div id="logo-container">
+            <img id="logo" src="hamburgueseria/logo.png" alt="Logo de Tandil Burger">
+        </div>
+        <div id="titulo-container">
+            <h1>Tandil Burger</h1>
+            <p id="frase-header">El mejor lugar para disfrutar hamburguesas irresistibles.</p>
+        </div>
+    </header>
+
+    <!-- Selección de mesa -->
+    <section id="seleccionMesa">
+        <label for="mesa">Selecciona tu mesa:</label>
+        <select id="mesa">
+            <option value="0">Mesa 0</option>
+            <option value="1">Mesa 1</option>
+            <option value="2">Mesa 2</option>
+            <option value="3">Mesa 3</option>
+            <option value="4">Mesa 4</option>
+        </select>
+    </section>
+
+    <!-- Menú de productos -->
+    <div id="menu">
+        <div class="producto">
+            <img src="hamburgueseria/clasica.jpg" alt="Hamburguesa 1">
+            <span>Hamburguesa Clásica</span>
+            <span>$500</span>
+            <p>Una hamburguesa con carne jugosa y pan suave, perfecta para cualquier ocasión.</p>
+            <button class="agregarCarrito" data-nombre="Hamburguesa Clásica" data-precio="500">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="hamburgueseria/doble.jpg" alt="Hamburguesa 2">
+            <span>Hamburguesa Doble</span>
+            <span>$700</span>
+            <p>Dos jugosas hamburguesas acompañadas de queso fundido y pan recién horneado.</p>
+            <button class="agregarCarrito" data-nombre="Hamburguesa Doble" data-precio="700">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="hamburgueseria/papas.jpg" alt="Papas Fritas">
+            <span>Papas Fritas</span>
+            <span>$150</span>
+            <label for="tamañoPapas">Tamaño: </label>
+            <select id="tamañoPapas" class="selectTamaño">
+                <option value="150">Clásicas</option>
+                <option value="200">Grandes</option>
+            </select>
+            <button class="agregarCarrito" data-nombre="Papas Fritas" data-precio="150">Agregar al carrito</button>
+        </div>
+        <div class="producto">
+            <img src="hamburgueseria/coca.jpg" alt="Bebidas">
+            <span>Bebidas</span>
+            <span>$100</span>
+            <label for="bebida">Bebida: </label>
+            <select id="bebida" class="selectBebida">
+                <option value="100">Coca Cola</option>
+                <option value="101">Fanta</option>
+                <option value="102">Sprite</option>
+                <option value="103">Coca Cola Zero</option>
+                <option value="50">Agua</option>
+                <option value="75">Agua Saborizada</option>
+            </select>
+            <button class="agregarCarrito" data-nombre="Bebida" data-precio="100">Agregar al carrito</button>
+        </div>
+        
+        <!-- Sección de Promociones -->
+        <div class="producto promo">
+            <img src="hamburgueseria/combo1.jpg" alt="Combo 1">
+            <span>Combo Clásico</span>
+            <span>$800</span>
+            <p>Hamburguesa Clásica, Papas Clásicas y Coca Cola. ¡La combinación perfecta!</p>
+            <button class="agregarCarrito" data-nombre="Combo Clásico" data-precio="800">Agregar al carrito</button>
+        </div>
+        <div class="producto promo">
+            <img src="hamburgueseria/combo2.jpg" alt="Combo 2">
+            <span>Combo Doble</span>
+            <span>$1000</span>
+            <p>Hamburguesa Doble, Papas Grandes y Fanta. Un combo para los más hambrientos.</p>
+            <button class="agregarCarrito" data-nombre="Combo Doble" data-precio="1000">Agregar al carrito</button>
+        </div>
+        <div class="producto promo">
+            <img src="hamburgueseria/combo3.jpg" alt="Combo 3">
+            <span>Combo Familiar</span>
+            <span>$1200</span>
+            <p>Dos Hamburguesas Clásicas, Papas Grandes y dos Bebidas a elección. ¡Ideal para compartir!</p>
+            <label for="bebidasCombo1">Elige tu primera bebida:</label>
+            <select id="bebidasCombo1" class="selectBebida">
+                <option value="100">Coca Cola</option>
+                <option value="101">Fanta</option>
+                <option value="102">Sprite</option>
+                <option value="103">Coca Cola Zero</option>
+                <option value="50">Agua</option>
+                <option value="75">Agua Saborizada</option>
+            </select>
+            <label for="bebidasCombo2">Elige tu segunda bebida:</label>
+            <select id="bebidasCombo2" class="selectBebida">
+                <option value="100">Coca Cola</option>
+                <option value="101">Fanta</option>
+                <option value="102">Sprite</option>
+                <option value="103">Coca Cola Zero</option>
+                <option value="50">Agua</option>
+                <option value="75">Agua Saborizada</option>
+            </select>
+            <button class="agregarCarrito" data-nombre="Combo Familiar" data-precio="1200">Agregar al carrito</button>
+        </div>
+    </div>
+
+    <!-- Carrito -->
+    <div id="carrito">
+        <div id="productosCarrito"></div>
+        <div id="totalCarrito">Total: $0</div>
+        <button id="vaciarCarrito">Vaciar carrito</button>
+        <button id="confirmarPedido">Confirmar pedido</button>
+    </div>
+
+    <!-- Botón carrito -->
+    <button id="carritoBtn">🛒</button>
+
+    <script src="pagina.js"></script>
+
+    <!-- Configuración e inicialización de Firebase -->
+    <script>
+        // Tu configuración de Firebase
+        var firebaseConfig = {
+            apiKey: "AIzaSyCOPxgTeJAEcEh1kpH-sPPk10ZrKT8kOwQ",
+            authDomain: "pedidosenlinea-66723.firebaseapp.com",
+            databaseURL: "https://pedidosenlinea-66723-default-rtdb.firebaseio.com/",
+            projectId: "pedidosenlinea-66723",
+            storageBucket: "pedidosenlinea-66723.firebasestorage.app",
+            messagingSenderId: "626828771215",
+            appId: "1:626828771215:web:c31a7b459cb0384ab595fa"
+        };
+        
+        // Inicializa Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        // Referencia a la base de datos
+        var db = firebase.database();
+    </script>
+</body>
+</html>
